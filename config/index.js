@@ -22,9 +22,8 @@ module.exports = {
        *  pathRewrite: 去除
        */
       '/api': {
-        target: 'http://localhost:8888',
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        pathRewrite: path => path.replace(path.match(/^\/api\/[a-zA-Z0-9]*/g), '')
       }
     },
 
