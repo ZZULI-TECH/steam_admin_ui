@@ -31,34 +31,51 @@
       label="操作"
       width="100">
       <template slot-scope="scope">
-        <el-button type="text" size="small" @click="handleClick(scope.row)">查看</el-button>
-        <el-button type="text" size="small">编辑</el-button>
+        <el-button type="text" size="small" @click="handleClick(scope.row)">编辑</el-button>
+        <el-button type="text" size="small" @click="deleteUser(scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
 </template>
 
 <script>
+import { getUserList, deleteUser } from '@/api/user'
+
 export default {
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      tableData: [],
+      pageQuery: {
+        total: '',
+        pageSize: 10,
+        pageNum: 1
+      }
+    }
+  },
+  created() {
+    this.fetchUsers()
+  },
+  methods: {
+    fetchUsers() {
+      this.pageQuery.pageSize = 9
+      this.pageQuery.pageNum = 1
+      getUserList(this.pageQuery).then(res => {
+        this.pageQuery.total = res.content.total
+        this.tableData = res.content.records
+      })
+    },
+    // 翻页
+    currentChange(val) {
+      this.pageQuery.pageNum = val
+      this.fetchUsers()
+    },
+    deleteUser(row) {
+      deleteUser(row).then(res => {
+        if (res.code === '0') {
+          this.$message('删除成功');
+          this.fetchUsers()
+        }
+      })
     }
   }
 }
