@@ -5,6 +5,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
+    userId: '',
     avatar: '',
     roles: []
   },
@@ -15,6 +16,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_USERID: (state, userId) => {
+      state.userId = userId
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -27,12 +31,17 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const email = userInfo.email.trim()
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
-          const data = response.data
+        const query = {
+          email: email,
+          password: userInfo.password
+        }
+        login(query).then(response => {
+          const data = response.content
           setToken(data.token)
           commit('SET_TOKEN', data.token)
+          commit('SET_USERID', data.userId)
           resolve()
         }).catch(error => {
           reject(error)
@@ -44,13 +53,11 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
+          console.log(response)
+          const data = response.content
+          // debugger
           commit('SET_NAME', data.name)
+          commit('SET_USERID', data.id)
           commit('SET_AVATAR', data.avatar)
           resolve(response)
         }).catch(error => {
@@ -62,7 +69,7 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        logout({ id: state.userId }).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()
