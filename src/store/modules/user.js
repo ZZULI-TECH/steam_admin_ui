@@ -1,14 +1,12 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { getUserList } from '../../api/user'
 
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: [],
-    users: []
+    roles: []
   },
 
   mutations: {
@@ -23,9 +21,6 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
-    },
-    SET_USERS: (state, users) => {
-      state.users = users
     }
   },
 
@@ -84,21 +79,6 @@ const user = {
         commit('SET_TOKEN', '')
         removeToken()
         resolve()
-      })
-    },
-
-    GetUserList({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getUserList(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          }
-
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
       })
     }
   }
