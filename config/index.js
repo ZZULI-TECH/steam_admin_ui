@@ -21,7 +21,7 @@ module.exports = {
        *  target: Gateway地址
        *  pathRewrite: 去除
        */
-      '/api': {
+      '/': {
         target: 'http://localhost:8080',
         changeOrigin: true,
       }
