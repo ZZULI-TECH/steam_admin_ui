@@ -13,13 +13,13 @@
         label="游戏名称"
         width="120"/>
       <el-table-column
-        prop="province"
+        prop="type"
         label="游戏类型"
         width="120"/>
       <el-table-column
         prop="englishName"
         label="英文名称"
-        width="120"/>
+        width="200"/>
       <el-table-column
         prop="price"
         label="价格"
@@ -27,14 +27,14 @@
       <el-table-column
         prop="remark"
         label="简介"
-        width="120"/>
+        width="600"/>
       <el-table-column
         prop="downloadUrl"
         label="下载链接"
-        width="120"/>
+        width="600"/>
       <el-table-column
         label="操作"
-        width="100">
+        width="200">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleClick(scope.row)">编辑</el-button>
           <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
@@ -72,7 +72,15 @@ export default {
       this.pageQuery.pageSize = 9
       getGameList(this.pageQuery).then(res => {
         this.pageQuery.total = parseInt(res.content.total)
-        this.tableData = res.content.records
+        const data = res.content.records
+        data.map(item => {
+          if (item.type === 1) {
+            item.type = '实体游戏'
+          } else if (item.type === 2) {
+            item.type = '数字游戏'
+          }
+        })
+        this.tableData = data
       })
     },
     // 翻页
