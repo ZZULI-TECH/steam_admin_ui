@@ -33,7 +33,7 @@
         :on-success="handleAvatarSuccess"
         :before-upload="beforeAvatarUpload"
         class="avatar-uploader"
-        action="http://localhost:8080/api/file/image">
+        action="/api/file/image">
         <img v-if="form.cover" :src="form.cover" class="avatar">
         <i v-else class="el-icon-plus avatar-uploader-icon"/>
       </el-upload>

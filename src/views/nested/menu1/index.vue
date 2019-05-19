@@ -20,46 +20,7 @@
         prop="orderStatus"
         label="订单状态"
         width="120"/>
-      <el-table-column
-        prop="consignee"
-        label="收货人"
-        width="120"/>
-      <el-table-column
-        prop="country"
-        label="国家"
-        width="300"/>
-      <el-table-column
-        prop="province"
-        label="省份"
-        width="120"/>
-      <el-table-column
-        prop="city"
-        label="城市"
-        width="120"/>
-      <el-table-column
-        prop="district"
-        label="县区"
-        width="120"/>
-      <el-table-column
-        prop="address"
-        label="地址"
-        width="120"/>
-      <el-table-column
-        prop="mobile"
-        label="联系方式"
-        width="120"/>
-      <el-table-column
-        prop="shippingCode"
-        label="快递单号"
-        width="120"/>
-      <el-table-column
-        prop="shippingName"
-        label="快递名称"
-        width="120"/>
-      <el-table-column
-        prop="needShipping"
-        label="是否需要发货"
-        width="120"/>
+      <!--TODO 字改为选择框改变订单状态-->
       <el-table-column
         prop="payCode"
         label="支付号"
@@ -67,10 +28,6 @@
       <el-table-column
         prop="payName"
         label="支付方式名称"
-        width="120"/>
-      <el-table-column
-        prop="invoiceTitle"
-        label="发票抬头"
         width="120"/>
       <el-table-column
         prop="orderAmount"

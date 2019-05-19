@@ -20,7 +20,7 @@ export function deleteGame(payload) {
 
 export function saveGame(payload) {
   return request({
-    url: '/api/game',
+    url: '/api/game/add',
     method: 'POST',
     data: payload
   })

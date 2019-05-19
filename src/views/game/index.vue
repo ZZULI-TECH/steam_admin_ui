@@ -75,9 +75,9 @@ export default {
         const data = res.content.records
         data.map(item => {
           if (item.type === 1) {
-            item.type = '实体游戏'
-          } else if (item.type === 2) {
             item.type = '数字游戏'
+          } else if (item.type === 2) {
+            item.type = '实体游戏'
           }
         })
         this.tableData = data
