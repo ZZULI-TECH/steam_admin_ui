@@ -7,32 +7,34 @@
       <el-table-column
         type="index"
         label="序号"
+        header-align="center"
+        align="center"
         width="150"/>
       <el-table-column
         prop="name"
         label="姓名"
-        width="120"/>
+        header-align="center"
+        align="center"
+        width="300"/>
       <el-table-column
-        prop="province"
-        label="省份"
-        width="120"/>
-      <el-table-column
-        prop="city"
-        label="市区"
-        width="120"/>
+        prop="email"
+        label="邮箱"
+        header-align="center"
+        align="center"
+        width="300"/>
       <el-table-column
         prop="address"
         label="地址"
+        header-align="center"
+        align="center"
         width="300"/>
       <el-table-column
-        prop="zip"
-        label="邮编"
-        width="120"/>
-      <el-table-column
         label="操作"
-        width="100">
+        header-align="center"
+        align="center"
+        width="300">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="handleClick(scope.row)">编辑</el-button>
+          <el-button type="text" size="small" @click="edit(scope.row)">编辑</el-button>
           <el-button type="text" size="small" @click="deleteUser(scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-import { getUserList, deleteUser } from '@/api/user'
+import { getUserList, deleteUser, editUser } from '@/api/user'
 
 export default {
   data() {
@@ -83,6 +85,10 @@ export default {
           this.fetchUsers()
         }
       })
+    },
+    // 编辑
+    edit(row) {
+      editUser(row)
     }
   }
 }

@@ -17,3 +17,12 @@ export function deleteUser(payload) {
     }
   })
 }
+
+export function editUser(user) {
+  return request({
+    url: '/api/user/update',
+    method: 'PUT',
+    data: user
+  })
+}
+
