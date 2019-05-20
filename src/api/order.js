@@ -14,3 +14,11 @@ export function deleteOrder(payload) {
     method: 'DELETE'
   })
 }
+
+export function update(row) {
+  return request({
+    url: '/api/order/update',
+    method: 'post',
+    data: row
+  })
+}

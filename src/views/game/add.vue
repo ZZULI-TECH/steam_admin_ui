@@ -1,12 +1,12 @@
 <template>
-  <el-form ref="form" :model="form" label-width="80px" style="width: 50%; margin-top: 20px">
+  <el-form ref="form" :model="form" label-width="80px" style="width: 50%; margin-top: 20px;margin-left: 20px">
     <el-form-item label="游戏名称">
       <el-input v-model="form.name"/>
     </el-form-item>
     <el-form-item label="游戏类型">
       <el-select v-model="form.type" placeholder="请选择游戏类型">
-        <el-option label="数字游戏" value="1"/>
-        <el-option label="实体游戏" value="2"/>
+        <el-option :value="type1" label="数字游戏"/>
+        <el-option :value="type2" label="实体游戏"/>
       </el-select>
     </el-form-item>
     <el-form-item label="英文名称">
@@ -51,6 +51,8 @@ import { saveGame } from '@/api/game'
 export default {
   data() {
     return {
+      type1: 1,
+      type2: 2,
       form: {
         name: '',
         type: 1,

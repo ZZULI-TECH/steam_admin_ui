@@ -1,8 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <h1>模版首页</h1>
-    <div class="dashboard-text">登陆用户名:{{ name }}</div>
-    <div class="dashboard-text">登陆用户角色:<span v-for="role in roles" :key="role">{{ role }}</span></div>
+    <h1>Steam后台管理首页</h1>
   </div>
 </template>
 

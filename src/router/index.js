@@ -26,7 +26,7 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/user/manage',
     name: 'Dashboard',
     hidden: true,
     children: [{
@@ -37,7 +37,7 @@ export const constantRouterMap = [
   {
     path: '/user',
     component: Layout,
-    redirect: '/user',
+    redirect: '/manage',
     name: 'Nested',
     meta: {
       title: '用户管理',
@@ -45,7 +45,7 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'user',
+        path: 'manage',
         component: () => import('@/views/user/index'), // Parent router-view
         name: 'Menu1',
         meta: { title: '用户信息管理' }
@@ -78,9 +78,9 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/nested',
+    path: '/order',
     component: Layout,
-    redirect: '/nested/order',
+    redirect: '/order/list',
     name: 'Nested',
     meta: {
       title: '订单管理',
@@ -88,7 +88,7 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'order',
+        path: 'list',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
         meta: { title: '订单管理' }
@@ -96,20 +96,20 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/nested',
+    path: '/msg',
     component: Layout,
-    redirect: '/nested/msg',
+    redirect: '/msg/list',
     name: 'Nested',
     meta: {
-      title: '留言回复',
+      title: '留言查看',
       icon: 'nested'
     },
     children: [
       {
-        path: 'msg',
+        path: 'list',
         component: () => import('@/views/nested/menu2/index'), // Parent router-view
         name: 'Menu1',
-        meta: { title: '留言回复' }
+        meta: { title: '留言查看' }
       }
       // {
       //   path: 'menu1',

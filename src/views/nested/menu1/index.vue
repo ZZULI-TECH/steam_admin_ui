@@ -1,9 +1,19 @@
 <template>
-  <div>
+  <div style="margin: 20px 20px">
+
+    选择状态：
+    <el-select v-model="pageQuery.orderStatus" placeholder="请选择" clearable @change="fetchOrders">
+      <el-option
+        v-for="item in orderStatus"
+        :key="item.id"
+        :label="item.name"
+        :value="item.id"/>
+    </el-select>
+
     <el-table
       :data="tableData"
       border
-      style="width: 100%">
+      style="width: 100%; margin-top: 30px">
       <el-table-column
         type="index"
         label="序号"
@@ -15,12 +25,21 @@
       <el-table-column
         prop="uid"
         label="用户id"
-        width="300"/>
+        width="200"/>
       <el-table-column
         prop="orderStatus"
         label="订单状态"
-        width="120"/>
-      <!--TODO 字改为选择框改变订单状态-->
+        width="220">
+        <template slot-scope="scope">
+          <el-select v-model="scope.row.orderStatus" clearable="true" placeholder="请选择" @change="pickState(scope.row)">
+            <el-option
+              v-for="item in orderStatus"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"/>
+          </el-select>
+        </template>
+      </el-table-column>
       <el-table-column
         prop="payCode"
         label="支付号"
@@ -55,7 +74,7 @@
 </template>
 
 <script>
-import { getOrderList, deleteOrder } from '@/api/order'
+import { getOrderList, deleteOrder, update } from '@/api/order'
 
 export default {
   data() {
@@ -64,8 +83,31 @@ export default {
       pageQuery: {
         total: 0,
         pageSize: 10,
-        pageNum: 1
-      }
+        pageNum: 1,
+        orderStatus: null
+      },
+      orderStatus: [
+        {
+          id: 1,
+          name: '等待发货'
+        },
+        {
+          id: 2,
+          name: '等待发货'
+        },
+        {
+          id: 3,
+          name: '已发货'
+        },
+        {
+          id: 4,
+          name: '已完成'
+        },
+        {
+          id: 5,
+          name: '取消订单'
+        }
+      ]
     }
   },
   created() {
@@ -73,24 +115,16 @@ export default {
   },
   methods: {
     fetchOrders() {
-      this.pageQuery.pageSize = 9
       getOrderList(this.pageQuery).then(res => {
         this.pageQuery.total = parseInt(res.content.total)
         const data = res.content.records
-        data.map(item => {
-          if (item.orderStatus === 1) {
-            item.orderStatus = '订单生成'
-          } else if (item.orderStatus === 2) {
-            item.orderStatus = '等待发货'
-          } else if (item.orderStatus === 3) {
-            item.orderStatus = '已发货'
-          } else if (item.orderStatus === 4) {
-            item.orderStatus = '已完成'
-          } else if (item.orderStatus === 4) {
-            item.orderStatus = '取消订单'
-          }
-        })
         this.tableData = data
+      })
+    },
+    // 更改订单状态
+    pickState(row) {
+      update(row).then(res => {
+        this.$message('更新成功')
       })
     },
     // 翻页

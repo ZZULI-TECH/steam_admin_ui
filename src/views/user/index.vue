@@ -1,5 +1,9 @@
 <template>
-  <div>
+  <div style="margin-left: 20px">
+
+    <el-input v-model="input" placeholder="输入用户名或者邮箱名搜索" style="width: 300px;margin-top: 30px;margin-right: 20px;margin-bottom: 20px"></el-input>
+    <el-button type="success" @click="search">搜索</el-button>
+
     <el-table
       :data="tableData"
       border
@@ -58,14 +62,23 @@ export default {
       pageQuery: {
         total: 0,
         pageSize: 10,
-        pageNum: 1
-      }
+        pageNum: 1,
+        name: ''
+      },
+      input: ''
     }
   },
   created() {
     this.fetchUsers()
   },
   methods: {
+    search() {
+      this.pageQuery.name = this.input
+      getUserList(this.pageQuery).then(res => {
+        this.pageQuery.total = parseInt(res.content.total)
+        this.tableData = res.content.records
+      })
+    },
     fetchUsers() {
       this.pageQuery.pageSize = 9
       getUserList(this.pageQuery).then(res => {

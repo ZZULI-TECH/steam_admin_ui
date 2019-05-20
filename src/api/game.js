@@ -26,3 +26,11 @@ export function saveGame(payload) {
   })
 }
 
+export function update(game) {
+  return request({
+    url: '/api/game/update',
+    method: 'POST',
+    data: game
+  })
+}
+
