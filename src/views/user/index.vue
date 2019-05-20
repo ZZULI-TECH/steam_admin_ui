@@ -1,7 +1,7 @@
 <template>
   <div style="margin-left: 20px">
 
-    <el-input v-model="input" placeholder="输入用户名或者邮箱名搜索" style="width: 300px;margin-top: 30px;margin-right: 20px;margin-bottom: 20px"></el-input>
+    <el-input v-model="input" placeholder="输入用户名或者邮箱名搜索" style="width: 300px;margin-top: 30px;margin-right: 20px;margin-bottom: 20px"/>
     <el-button type="success" @click="search">搜索</el-button>
 
     <el-table

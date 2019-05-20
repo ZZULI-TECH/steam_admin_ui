@@ -34,3 +34,9 @@ export function update(game) {
   })
 }
 
+export function get(id) {
+  return request({
+    url: '/api/game/' + id,
+    method: 'GET'
+  })
+}

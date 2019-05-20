@@ -10,16 +10,13 @@
       </el-table-column>
       <el-table-column
         label="序号"
-        type="index">
-      </el-table-column>
+        type="index"/>
       <el-table-column
         label="用户名"
-        prop="name">
-      </el-table-column>
+        prop="name"/>
       <el-table-column
         label="邮箱"
-        prop="email">
-      </el-table-column>
+        prop="email"/>
     </el-table>
   </div>
 </template>

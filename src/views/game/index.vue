@@ -1,6 +1,6 @@
 <template>
   <div style="margin-left: 20px;margin-top: 20px">
-    <el-input v-model="pageQuery.name" placeholder="输入游戏名搜索" style="width: 300px;margin-top: 30px;margin-right: 20px;margin-bottom: 20px"></el-input>
+    <el-input v-model="pageQuery.name" placeholder="输入游戏名搜索" style="width: 300px;margin-top: 30px;margin-right: 20px;margin-bottom: 20px"/>
     <el-button type="success" @click="search">搜索</el-button>
     <el-table
       :data="tableData"
@@ -37,6 +37,7 @@
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="handleClick(scope.row)">编辑</el-button>
           <el-button type="text" size="small" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="text" size="small" @click="handleAddImgClick(scope.row)">上传图片</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,11 +98,32 @@
       </el-form>
     </el-dialog>
 
+    <el-dialog
+      :visible.sync="imgDialogVisible"
+      width="700px"
+      style="height: 1000px">
+      <div>
+        <el-image v-for="url in imgUrls" :key="url" :src="url" lazy/>
+        <el-upload
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handlePictureRemove"
+          :on-success="handlePictureSuccess"
+          action="/api/file/image"
+          list-type="picture-card">
+          <i class="el-icon-plus"/>
+        </el-upload>
+      </div>
+    </el-dialog>
+
+    <el-dialog :visible.sync="prevDialogVisible">
+      <img :src="dialogImageUrl" width="100%" alt="">
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getGameList, deleteGame, update } from '@/api/game'
+import { getGameList, deleteGame, update, get } from '@/api/game'
+import { saveGameImage } from '@/api/gameimage'
 
 export default {
   data() {
@@ -116,6 +138,11 @@ export default {
       type1: 1,
       type2: 2,
       dialogVisible: false,
+      imgDialogVisible: false,
+      prevDialogVisible: false,
+      dialogImageUrl: '',
+      imgUrls: [],
+      currentGame: {},
       form: {
         id: '',
         name: '',
@@ -170,6 +197,37 @@ export default {
         this.dialogVisible = false
         this.$message('更新成功')
       })
+    },
+    handleAddImgClick(row) {
+      get(row.id).then(res => {
+        const data = res.content
+        if (data) {
+          this.currentGame = data
+          this.imgUrls = data.images
+        }
+      })
+      this.imgDialogVisible = true
+    },
+    handlePictureRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url
+      this.prevDialogVisible = true
+    },
+    handlePictureSuccess(res, file) {
+      if (res.code === '0') {
+        this.imgUrls.push(res.content.url)
+        saveGameImage({
+          gameId: this.currentGame.id,
+          imageUrl: res.content.url
+        }).then(res => {
+          if (res.code === '0') {
+            this.$message('上传成功')
+            this.fetchUsers()
+          }
+        })
+      }
     }
   }
 }
